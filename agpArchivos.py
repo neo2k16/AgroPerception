@@ -14,8 +14,21 @@ Programa:
 """------------------------------------------------------------------------------------------------
 										import
 ------------------------------------------------------------------------------------------------"""
+import sys
 import os.path
 from io import open
+
+"""------------------------------------------------------------------------------------------------
+										verficaArgumentos
+	- Verifica argumentos de entrada
+------------------------------------------------------------------------------------------------"""
+def verificaArgumentos(listaArgumentos):
+    archivo = ""
+    if (len(listaArgumentos) >= 2):
+        archivo = listaArgumentos[1]
+    else:
+        archivo = input("Ingrese path del archivo: ").strip()
+    return archivo
 
 """------------------------------------------------------------------------------------------------
 										verficaArchivo
@@ -29,20 +42,18 @@ def verificaArchivo(archivo):
 	- Elimina caracteres especiales y signos de puntuación										
 ------------------------------------------------------------------------------------------------"""
 def cuentaPalabras(archivo):
-	if (verificaArchivo(archivo) == False):
-		print("El archivo no existe")
-		return -1;
+    if (verificaArchivo(archivo) == False):
+        print("El archivo no existe")
+        return -1;
+    nLineas, nPalabras = 0,0
 
-	nLineas, nPalabras = 0,0
-
-	archivoTexto = open (archivo, "r", encoding="utf-8")
-	for line in archivoTexto:
-		listaPalabras = line.replace(',','').replace('.','').replace('\n',' ').replace('\r',' ').replace('\t',' ').replace('  ', ' ').lower().split()
-		nLineas += 1
-		nPalabras += len(listaPalabras)
-	archivoTexto.close()
-
-	return nPalabras
+    archivoTexto = open (archivo, "r", encoding="utf-8")
+    for line in archivoTexto:
+        listaPalabras = line.replace(',','').replace('.','').replace('\n',' ').replace('\r',' ').replace('\t',' ').replace('  ', ' ').lower().split()
+        nLineas += 1
+        nPalabras += len(listaPalabras)
+    archivoTexto.close()
+    return nPalabras
 
 """------------------------------------------------------------------------------------------------
 										cuentaLetras
@@ -76,21 +87,20 @@ def cuentaLetras(archivo):
 										main
 	- Función principal
 ------------------------------------------------------------------------------------------------"""
+"""
 def main():
-	#archivo = input("Ingrese Archivo: ").strip()
+    archivo = verificaArgumentos(sys.argv)
 
-	archivo = "archivo.txt"
-	
-	if (verificaArchivo(archivo) == False):
-		print("El archivo no existe")
-		return;
+    if (verificaArchivo(archivo) == False):
+        print("El archivo no existe")
+        return
 
-	nPalabras = cuentaPalabras(archivo)
-	print ("nPalabras: " + str(nPalabras))
-		
-	nLetras = cuentaLetras(archivo)
-	print ("nLetras: " + str(nLetras))
+    nPalabras = cuentaPalabras(archivo)
+    print ("nPalabras: " + str(nPalabras))
+
+    nLetras = cuentaLetras(archivo)
+    print ("nLetras: " + str(nLetras))
 
 main()
-
+"""
 #>>>>>>>>>> Fin de Archivo: agpArchivos.py <<<<<<<<<<
